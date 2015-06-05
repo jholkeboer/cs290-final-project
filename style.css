@@ -33,23 +33,14 @@ body {
 }
 
 .viewport {
-	float: left;
+	float: right;
 	width: 84%;
-	background-color: #DCF2E4;
+	background-color: #D0F5EE;
 	min-height: 100%;
+	font-family: "lucida console";
 }
 
-.menulink a {
-	color: #DCF2E4;
-	font-size: 14em;
-	text-decoration: none;
-}
-
-.menulink a:link, a:visited {
-    color: #DCF2E4;
-	text-decoration: none;
-}
-.menulink a:hover {
-    color: #DCF2E4;
-	text-decoration: none;
-}
+.viewport a:link {color: #008000; text-decoration: underline; }
+.viewport a:active {color: #008000; text-decoration: underline; }
+.viewport a:visited {color: #008000; text-decoration: underline; }
+.viewport a:hover {color: #008000; text-decoration: none; }
