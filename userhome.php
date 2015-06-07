@@ -7,9 +7,11 @@ if ($_SESSION['loginStatus'] != 1) {
 if ($_SESSION['loginStatus'] == 1) {
 	$sessionUser = $_SESSION['user'];
 }
+
+
 	//get user id from database
 if (isset($sessionUser)) {
-		//prepare insert statement
+		//prepare statement
 	if (!($getUID = $mysqli->prepare("SELECT u_id as owner FROM user_ WHERE u_name=?"))) {
 		echo "Prepare failed on getUID";
 	}
@@ -30,6 +32,129 @@ if (isset($sessionUser)) {
 	$getUID->close();	
 }
 
+	//check for station add post
+if (isset($_POST['station-name'])) {
+		//prepare statement
+	if (!($addStation = $mysqli->prepare("INSERT INTO station (`name`,`desc`,owner_id) values (?,?,?)"))) {
+		echo "Prepare failed on addStation";
+	}
+		//bind parameters
+	if (!($addStation->bind_param("ssi", $_POST['station-name'], $_POST['station-desc'], $owner_id))) {
+		echo "Binding failed on addStation";
+	}
+		//execute
+	if (!($addStation->execute())) {
+		echo "Error. addStation did not execute.";		
+	}
+	else {
+		header("Location: {$redirect}/userhome.php", true);
+		die();
+	}
+	$addStation->close();		
+}
+
+	//check for block add post
+if (isset($_POST['block-name'])) {
+		//prepare statement
+	if (!($addBlock = $mysqli->prepare("INSERT INTO block (`name`,`desc`,owner_id) values (?,?,?)"))) {
+		echo "Prepare failed on addBlock";
+	}
+		//bind parameters
+	if (!($addBlock->bind_param("ssi", $_POST['block-name'], $_POST['block-desc'], $owner_id))) {
+		echo "Binding failed on addBlock";
+	}
+		//execute
+	if (!($addBlock->execute())) {
+		echo "Error. addBlock did not execute.";		
+	}
+	else {
+		header("Location: {$redirect}/userhome.php", true);
+		die();
+	}
+	$addBlock->close();	
+}
+
+	//check for station delete post
+if (isset($_POST['stationToDelete'])) {
+		//prepare statement
+	if (!($deleteStation = $mysqli->prepare("DELETE FROM station WHERE station_id=?"))) {
+		echo "Prepare failed on deleteStation.";
+	}
+		//bind parameters
+	if (!($deleteStation->bind_param("i",$_POST['stationToDelete']))) {
+		echo "Binding failed on deleteStation.";
+	}
+		//execute
+	if (!($deleteStation->execute())) {
+		echo "Error. deleteStation did not execute.";		
+	}
+	$deleteStation->close();
+		//prepare statement
+	if (!($deleteBlockStation = $mysqli->prepare("DELETE FROM block_station WHERE station_id=?"))) {
+		echo "Prepare failed on deleteBlockStation.";
+	}
+		//bind parameters
+	if (!($deleteBlockStation->bind_param("i",$_POST['stationToDelete']))) {
+		echo "Binding failed on deleteBlockStation.";
+	}
+		//execute
+	if (!($deleteBlockStation->execute())) {
+		echo "Error. deleteBlockStation did not execute.";		
+	}
+	$deleteBlockStation->close();
+	header("Location: {$redirect}/userhome.php", true);
+	die();	
+}
+
+	//check for block delete post
+if (isset($_POST['blockToDelete'])) {
+	//we have to perform deletes on:
+									//block
+		//block_block
+		//prepare statement
+	if (!($deleteBlock = $mysqli->prepare("DELETE FROM block WHERE block_id=?"))) {
+		echo "Prepare failed on deleteBlock.";
+	}
+		//bind parameters
+	if (!($deleteBlock->bind_param("i",$_POST['blockToDelete']))) {
+		echo "Binding failed on deleteBlock.";
+	}
+		//execute
+	if (!($deleteBlock->execute())) {
+		echo "Error. deleteBlock did not execute.";		
+	}
+	$deleteBlock->close();
+									//item_block
+		//prepare statement
+	if (!($deleteBlockItem = $mysqli->prepare("DELETE FROM item_block WHERE block_id=?"))) {
+		echo "Prepare failed on deleteBlockStation.";
+	}
+		//bind parameters
+	if (!($deleteBlockItem->bind_param("i",$_POST['blockToDelete']))) {
+		echo "Binding failed on deleteBlockItem.";
+	}
+		//execute
+	if (!($deleteBlockItem->execute())) {
+		echo "Error. deleteBlockItem did not execute.";		
+	}
+	$deleteBlockItem->close();
+									//block_block
+		//prepare statement
+	if (!($deleteBlockBlock = $mysqli->prepare("DELETE FROM block_block WHERE parent_block=? OR child_block=?"))) {
+		echo "Prepare failed on deleteBlockStation.";
+	}
+		//bind parameters
+	if (!($deleteBlockBlock->bind_param("ii",$_POST['blockToDelete'],$_POST['blockToDelete']))) {
+		echo "Binding failed on deleteBlockStation.";
+	}
+		//execute
+	if (!($deleteBlockBlock->execute())) {
+		echo "Error. deleteBlockStation did not execute.";		
+	}
+	$deleteBlockBlock->close();
+	header("Location: {$redirect}/userhome.php", true);
+	die();	
+}
 	//query to get list of stations
 if (isset($owner_id)) {
 		//prepare insert statement
@@ -85,18 +210,26 @@ if (isset($owner_id)) {
 		<?php
 		if (!empty($sessionUser)) {
 			echo "
-			<li id='userMsg'>You're logged in as " . $sessionUser . ".</li>";
+			<li id='userMsg'>You're logged in as <b>" . $sessionUser . "</b>.</li>";
 		}
 		?>
-		<li><a href="stations.php">Stations</a></li>
-		<li><a href="blocks.php">Blocks</a></li>
+		<li><a href="userhome.php">Homepage</a></li>
 		<li><a href="logout.php">Log Out</a></li>
 	</ul>
 </div>
 
 <div class="viewport"><br>
 	<div class="leftCol">
-		Your Stations:<br><br>
+		Add station:
+		<form method="post" action="userhome.php">
+			<label>Name:</label>
+			<input type="text" name="station-name" required><br>
+			<label>Description:</label>
+			<input type="text" name="station-desc">
+			<input type="hidden" name="owner-id" value="<?php echo $owner_id ?>">
+			<input type="submit" value="Create Station">
+		</form>
+		<br><br><u>Your Stations:</u><br><br>
 		<table>
 		<thead>
 			<tr>
@@ -107,9 +240,20 @@ if (isset($owner_id)) {
 		<tbody>
 		<?php
 		while ($row = $stationResult->fetch_assoc()) {
+			if ($row['desc'] == "") {
+				$row['desc'] = "[No description.]";
+			}
 			echo "<tr>";
 			echo "<td>" . "<a href='stationpage.php?station_id=" . $row['station_id'] . "'>" . $row['name'] . "</a>" . "</td>";
-			echo "<td>" . $row['desc'] . "</td>";
+			echo "<td style='padding: 10px;'>" . $row['desc'] . "</td>";
+			echo "<td style='padding:2px;'>
+			<form action='userhome.php' method='post'>
+				<input type='hidden' name='stationToDelete' value='".$row['station_id']."'>
+				<input type='submit' value='Delete'>
+			</form>
+			</td>
+			";
+			echo "</tr>";
 			echo "</tr>";
 		}	
 		?>
@@ -117,7 +261,16 @@ if (isset($owner_id)) {
 		</table>
 	</div>
 	<div class="rightCol">
-		Your Blocks:<br><br>
+		Add block:
+		<form method="post" action="userhome.php">
+			<label>Name:</label>
+			<input type="text" name="block-name" required><br>
+			<label>Description:</label>
+			<input type="text" name="block-desc">
+			<input type="hidden" name="owner-id" value="<?php echo $owner_id ?>">
+			<input type="submit" value="Create block">
+		</form><br><br>
+		<u>Your Blocks:</u><br><br>
 		<table>
 		<thead>
 			<tr>
@@ -128,9 +281,19 @@ if (isset($owner_id)) {
 		<tbody>
 		<?php
 		while ($row = $blockResult->fetch_assoc()) {
+			if ($row['desc'] == "") {
+				$row['desc'] = "[No description.]";
+			}
 			echo "<tr>";
 			echo "<td>" . "<a href='blockpage.php?block_id=" . $row['block_id'] . "'>" . $row['name'] . "</a>" . "</td>";
-			echo "<td>" . $row['desc'] . "</td>";
+			echo "<td style='padding: 10px;'>" . $row['desc'] . "</td>";
+			echo "<td style='padding:2px;'>
+			<form action='userhome.php' method='post'>
+				<input type='hidden' name='blockToDelete' value='".$row['block_id']."'>
+				<input type='submit' value='Delete'>
+			</form>
+			</td>
+			";
 			echo "</tr>";
 		}	
 		?>

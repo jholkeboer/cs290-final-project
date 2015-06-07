@@ -1,4 +1,11 @@
-<?php session_start(); ?>
+<?php session_start();
+include "infostash.php";
+if (!empty($_SESSION['loginStatus']) && !empty($_SESSION['user'])) {
+	//user is already logged in, redirect to userhome
+	header("Location: {$redirect}/userhome.php", true);
+	die();
+}
+ ?>
 <!doctype html>
 <head>
 	<script type="text/javascript" src="scripts.js"></script>
@@ -25,7 +32,7 @@
 	<form>
 		<div>
 			<label>Choose your username: </label>
-			<input type="text" name="username-input" id="username-input">
+			<input type="text" name="username-input" id="username-input" required>
 		</div>
 		<div>
 			<label>Choose your password: </label>
