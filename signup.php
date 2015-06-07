@@ -19,11 +19,12 @@ include 'infostash.php';
 </div>
 
 <div class="viewport">
+	<br>
 	<div id="errorMsg">
 		
 	</div>
 	<h1>sign up for auxjockey:</h1>
-	<form action="lookup.php" method="post">
+	<form>
 		<div>
 			<label>Choose your username: </label>
 			<input type="text" name="username-input" id="username-input">

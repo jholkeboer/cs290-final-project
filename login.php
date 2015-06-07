@@ -16,6 +16,9 @@
 </div>
 
 <div class="viewport">
+	<br>
+	<div id="signupMsg"></div>
+	<div id="errorMsg"></div>
 	<h1>log in to auxjockey:</h1>
 	<form>
 		<div>
@@ -32,3 +35,15 @@
 	</form>
 </div>
 </body>
+
+<?php
+if (isset($_GET['signin'])) {
+	if ($_GET['signin'] == "true") {
+		echo "
+		<script>
+			document.getElementById('signupMsg').textContent = 'Thanks for signing up. You can log in now.';
+		</script>
+		";
+	}
+}	
+?>
