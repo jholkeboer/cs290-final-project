@@ -1,10 +1,53 @@
 <?php
+include "infostash.php";
 session_start();
 if ($_SESSION['loginStatus'] != 1) {
 	//user is not actually logged in.  destroy session and send them back to homepage.
 }
 if ($_SESSION['loginStatus'] == 1) {
 	$sessionUser = $_SESSION['user'];
+}
+	//get user id from database
+if (isset($sessionUser)) {
+		//prepare insert statement
+	if (!($getUID = $mysqli->prepare("SELECT u_id as owner FROM user_ WHERE u_name=?"))) {
+		echo "Prepare failed on getUID";
+	}
+		//bind parameters
+	if (!($getUID->bind_param("s", $sessionUser))) {
+		echo "Binding failed on getUID";
+	}
+		//execute
+	if (!($getUID->execute())) {
+		echo "Error, logged in but user not found.";		
+	}
+	else {
+		$uidResult = $getUID->get_result();
+		while ($row = $uidResult->fetch_assoc()) {
+			$owner_id = $row['owner'];
+		}
+	}
+	$getUID->close();	
+}
+
+	//query to get list of stations
+if (isset($owner_id)) {
+		//prepare insert statement
+	if (!($getStations = $mysqli->prepare("SELECT * FROM station WHERE `owner_id`=?"))) {
+		echo "Prepare failed on getStations";
+	}
+		//bind parameters
+	if (!($getStations->bind_param("i", $owner_id))) {
+		echo "Binding failed on getStations";
+	}
+		//execute
+	if (!($getStations->execute())) {
+		echo "Error, getStations did not execute";		
+	}
+	else {
+		$stationResult = $getStations->get_result();
+	}
+	$getStations->close();	
 }
 ?>
 <!doctype html>
@@ -31,7 +74,18 @@ if ($_SESSION['loginStatus'] == 1) {
 	</ul>
 </div>
 
-<div class="viewport">
-
+<div class="viewport"><br>
+	<div class="leftCol">
+		Your Stations:<br>
+		<?php
+		while ($row = $stationResult->fetch_assoc()) {
+			echo $row['name'];
+			echo "<br>";
+		}	
+		?>
+	</div>
+	<div class="rightCol">
+		Your Blocks:
+	</div>
 </div>
 </body>

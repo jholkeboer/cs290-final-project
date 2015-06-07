@@ -1,16 +1,7 @@
 <?php
 //This file is purely server side code to handle AJAX requests.
 include "infostash.php";
-//$mysqli = new mysqli("oniddb.cws.oregonstate.edu","holkeboj-db",$holkebojpass,"holkeboj-db");
-//if(!$mysqli || $mysqli->connect_errno) {
-//	echo "Unable to connect to database.  Error: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-//}
 
-////local db
-$mysqli = new mysqli("localhost","root",$localpass,"auxjockey","3306");
-if(!$mysqli || $mysqli->connect_errno) {
-	echo "Unable to connect to database.  Error: " . $mysqli->connect_errno . " " . $mysqli->connect_error;
-}
 
 //signup query
 if (isset($_POST['username'])) {

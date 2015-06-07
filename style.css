@@ -53,3 +53,13 @@ li a:link {color: #D0F5EE; text-decoration: underline; }
 li a:active {color: #D0F5EE; text-decoration: underline; }
 li a:visited {color: #D0F5EE; text-decoration: underline; }
 li a:hover {color: #D0F5EE; text-decoration: none; }
+
+.leftCol {
+	float: left;
+	width: 45%;
+}
+
+.rightCol {
+	float: right;
+	width: 45%;
+}
