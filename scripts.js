@@ -7,7 +7,7 @@ function loginScript() {
 	var userpass = document.getElementById('password-input').value;
 	var req = new XMLHttpRequest();
 	var reqdata = "loginuser=" + username + "&loginpass=" + userpass;
-	req.open("POST","lookup.php, true");
+	req.open("POST","lookup.php", true);
 	req.onreadystatechange = function() {
 		if (req.readyState == 4) {
 			if (req.status == 200) {

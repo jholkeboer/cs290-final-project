@@ -38,5 +38,38 @@ if (isset($username_candidate) && isset($password_candidate)) {
 	$addUser->close();
 }
 
+//login query
+if (isset($_POST['loginuser'])) {
+	$loginuser = $_POST['loginuser'];
+}
+if (isset($_POST['loginpass'])) {
+	$loginpass = md5($_POST['loginpass']);
+}
+if (isset($loginuser) && isset($loginpass)) {
+		//prepare lookup statement
+	if (!($loginQuery = $mysqli->prepare("SELECT count(1) AS `count` FROM user_ WHERE u_name=? AND u_pass=?"))) {
+		echo "Prepare failed on loginQuery";
+	}
+		//bind parameters
+	if (!($loginQuery->bind_param("ss", $loginuser, $loginpass))) {
+		echo "Binding failed on loginQuery";
+	}
+		//execute
+	if (!($loginQuery->execute())) {
+		echo json_encode(array("status" => "failed", "user" => $loginuser));		
+	}
+	else {
+		$loginResult = $loginQuery->get_result();
+		while ($row = $loginResult->fetch_assoc()) {
+			if ($row['count'] == 0) {
+				//in this case, the user/pass combo did not find a match
+				echo json_encode(array("status" => "failed", "user" => $loginuser));				
+			}
+			else if ($row['count'] == 1) {
+				echo json_encode(array("status" => "ok", "user" => $loginuser));
+			}
+		}
+	}
+}
 
 ?>
