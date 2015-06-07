@@ -217,8 +217,9 @@ if (isset($owner_id)) {
 		<li><a href="logout.php">Log Out</a></li>
 	</ul>
 </div>
-
+	<a onclick="showHelp()">Need Help?</a>
 <div class="viewport"><br>
+
 	<div class="leftCol">
 		Add station:
 		<form method="post" action="userhome.php">

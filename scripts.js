@@ -75,3 +75,7 @@ function signupScript() {
 //	}
 //	return vid;
 //}
+
+function showHelp() {
+	alert("Stations contain blocks.\nBlocks contain YouTube links.\nUse Blocks to build your Station.\nHave fun!");
+}
