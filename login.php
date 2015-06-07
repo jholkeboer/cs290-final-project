@@ -1,3 +1,19 @@
+<?php
+session_start();
+include "infostash.php";
+if (!empty($_SESSION['loginStatus']) && !empty($_SESSION['user'])) {
+	//user is already logged in, redirect to userhome
+	header("Location: {$redirect}/userhome.php", true);
+	die();
+}
+elseif (!empty($_POST['username-input']) && !empty($_POST['password-input'])) {
+	//user just logged in, get info from POST and redirect
+	$_SESSION['user'] = $_POST['username-input'];
+	$_SESSION['loginStatus'] = 1;
+	header("Location: {$redirect}/userhome.php", true);
+	die();
+}
+?>
 <!doctype html>
 <head>
 	<script type="text/javascript" src="scripts.js"></script>
@@ -5,7 +21,7 @@
 </head>
 <body>
 <div class="titlebar">
-	<a href="landing.html">auxjockey<a>
+	<a href="landing.php">auxjockey<a>
 </div>
 
 <div class="sidebar">
@@ -20,7 +36,7 @@
 	<div id="signupMsg"></div>
 	<div id="errorMsg"></div>
 	<h1>log in to auxjockey:</h1>
-	<form>
+	<form action="login.php" method="post" id="login-form">
 		<div>
 			<label>Username: </label>
 			<input type="text" name="username-input" id="username-input">

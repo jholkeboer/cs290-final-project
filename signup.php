@@ -1,6 +1,4 @@
-<?php
-include 'infostash.php';
-?>
+<?php session_start(); ?>
 <!doctype html>
 <head>
 	<script type="text/javascript" src="scripts.js"></script>
@@ -8,7 +6,7 @@ include 'infostash.php';
 </head>
 <body>
 <div class="titlebar">
-	<a href="landing.html">auxjockey<a>
+	<a href="landing.php">auxjockey<a>
 </div>
 
 <div class="sidebar">

@@ -1,8 +1,18 @@
+<?php
+session_start();
+include "infostash.php";
+if (isset($_SESSION['loginStatus'])) {
+	if ($_SESSION['loginStatus'] == 1) {
+		header("Location: {$redirect}/userhome.php", true);
+		die();	
+	}
+}
+?>
 <!doctype html>
 <link rel="stylesheet" type="text/css" href="style.css">
 
 <div class="titlebar">
-	<a href="landing.html">auxjockey<a>
+	<a href="landing.php">auxjockey<a>
 </div>
 <div class="sidebar">
 	<ul>

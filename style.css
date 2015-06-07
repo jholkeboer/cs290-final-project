@@ -44,3 +44,12 @@ body {
 .viewport a:active {color: #008000; text-decoration: underline; }
 .viewport a:visited {color: #008000; text-decoration: underline; }
 .viewport a:hover {color: #008000; text-decoration: none; }
+
+#userMsg {
+	color: #D0F5EE;
+}
+
+li a:link {color: #D0F5EE; text-decoration: underline; }
+li a:active {color: #D0F5EE; text-decoration: underline; }
+li a:visited {color: #D0F5EE; text-decoration: underline; }
+li a:hover {color: #D0F5EE; text-decoration: none; }

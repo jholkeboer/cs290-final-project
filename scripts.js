@@ -14,6 +14,14 @@ function loginScript() {
 				console.log("Request went through to db.")
 				console.log(req.responseText);
 				var jsonResponse = JSON.parse(req.responseText);
+				document.getElementById('signupMsg').textContent = "";
+				if (jsonResponse.status == "failed") {
+					document.getElementById('errorMsg').textContent = "That username/password combo does not exist.";					
+				}
+				else if (jsonResponse.status == "ok") {
+					document.getElementById('errorMsg').textContent = "";
+					document.getElementById('login-form').submit();										
+				}
 			}
 		}
 	}
