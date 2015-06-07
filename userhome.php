@@ -49,6 +49,26 @@ if (isset($owner_id)) {
 	}
 	$getStations->close();	
 }
+
+	//query to get list of blocks
+if (isset($owner_id)) {
+		//prepare insert statement
+	if (!($getBlocks = $mysqli->prepare("SELECT * FROM block WHERE `owner_id`=?"))) {
+		echo "Prepare failed on getBlocks";
+	}
+		//bind parameters
+	if (!($getBlocks->bind_param("i", $owner_id))) {
+		echo "Binding failed on getBlocks";
+	}
+		//execute
+	if (!($getBlocks->execute())) {
+		echo "Error, getBlocks did not execute";		
+	}
+	else {
+		$blockResult = $getBlocks->get_result();
+	}
+	$getBlocks->close();	
+}
 ?>
 <!doctype html>
 <head>
@@ -76,16 +96,46 @@ if (isset($owner_id)) {
 
 <div class="viewport"><br>
 	<div class="leftCol">
-		Your Stations:<br>
+		Your Stations:<br><br>
+		<table>
+		<thead>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
 		<?php
 		while ($row = $stationResult->fetch_assoc()) {
-			echo $row['name'];
-			echo "<br>";
+			echo "<tr>";
+			echo "<td>" . "<a href='stationpage.php?station_id=" . $row['station_id'] . "'>" . $row['name'] . "</a>" . "</td>";
+			echo "<td>" . $row['desc'] . "</td>";
+			echo "</tr>";
 		}	
 		?>
+		</tbody>
+		</table>
 	</div>
 	<div class="rightCol">
-		Your Blocks:
+		Your Blocks:<br><br>
+		<table>
+		<thead>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+		<?php
+		while ($row = $blockResult->fetch_assoc()) {
+			echo "<tr>";
+			echo "<td>" . "<a href='blockpage.php?block_id=" . $row['block_id'] . "'>" . $row['name'] . "</a>" . "</td>";
+			echo "<td>" . $row['desc'] . "</td>";
+			echo "</tr>";
+		}	
+		?>
+		</tbody>
+		</table>
 	</div>
 </div>
 </body>
