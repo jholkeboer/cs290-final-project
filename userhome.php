@@ -217,7 +217,7 @@ if (isset($owner_id)) {
 		<li><a href="logout.php">Log Out</a></li>
 	</ul>
 </div>
-	<a onclick="showHelp()">Need Help?</a>
+<a onclick="showHelp()">Need Help?</a>
 <div class="viewport"><br>
 
 	<div class="leftCol">
@@ -286,7 +286,7 @@ if (isset($owner_id)) {
 				$row['desc'] = "[No description.]";
 			}
 			echo "<tr>";
-			echo "<td>" . "<a href='blockpage.php?block_id=" . $row['block_id'] . "'>" . $row['name'] . "</a>" . "</td>";
+			echo "<td>" . "<a href='blockpage.php?block_id=" . $row['block_id'] . "&block_name=".$row['name'].".'>" . $row['name'] . "</a>" . "</td>";
 			echo "<td style='padding: 10px;'>" . $row['desc'] . "</td>";
 			echo "<td style='padding:2px;'>
 			<form action='userhome.php' method='post'>

@@ -65,16 +65,6 @@ function signupScript() {
 	req.send(reqdata);
 };
 
-//function ytParse(link) {
-//	var urlSplit1 = link.split("/");
-//	var urlSplit2 = urlSplit1[3].split("?v=");
-//	
-//	var vid = urlSplit2[1].split("&");
-//	if (urlSplit1[2] != "www.youtube.com") {
-//		vid = "failed";
-//	}
-//	return vid;
-//}
 
 function showHelp() {
 	alert("Stations contain blocks.\nBlocks contain YouTube links.\nUse Blocks to build your Station.\nHave fun!");
