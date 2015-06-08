@@ -110,7 +110,6 @@ if (isset($_POST['stationToDelete'])) {
 if (isset($_POST['blockToDelete'])) {
 	//we have to perform deletes on:
 									//block
-		//block_block
 		//prepare statement
 	if (!($deleteBlock = $mysqli->prepare("DELETE FROM block WHERE block_id=?"))) {
 		echo "Prepare failed on deleteBlock.";
