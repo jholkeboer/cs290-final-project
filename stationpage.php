@@ -1,5 +1,4 @@
 <?php
-
 include "infostash.php";
 session_start();
 if ($_SESSION['loginStatus'] != 1) {
@@ -144,7 +143,7 @@ if (isset($station_id) && isset($blockToDelete)) {
 <div class="viewport"><br>
 
 	<div class="leftCol">
-		<br><br><u>Blocks in <b><?php //echo $station_name; ?></b>:</u><br><br>
+		<br><br><u>Blocks in the station <b><?php echo $station_name; ?></b>:</u><br><br>
 		<table>
 		<thead>
 			<tr>

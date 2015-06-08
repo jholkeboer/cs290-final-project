@@ -176,7 +176,6 @@ if (isset($owner_id)) {
 	else {
 		$stationResult = $getStations->get_result();
 	}
-	$getStations->close();	
 }
 
 	//query to get list of blocks
@@ -218,7 +217,14 @@ if (isset($owner_id)) {
 		}
 		?>
 		<li><a href="userhome.php">Homepage</a></li>
-		<li><a href="logout.php">Log Out</a></li>
+		<li><a href="logout.php">Log Out</a></li><br>
+		<h3 style="color:#D0F5EE;">Your Stations:</h3><br>
+		<?php
+			//echo a list entry for each station, linking to stationviewer.php with GET
+			while ($row = $stationResult->fetch_assoc()) {
+			echo "<li>" . "<a href='stationpage.php?station_id='" . $row['station_id'] . "'>" . $row['name'] . "</a>" . "</li>";
+			}
+		?>	
 	</ul>
 </div>
 <a onclick="showHelp()">Need Help?</a>
@@ -234,7 +240,7 @@ if (isset($owner_id)) {
 			<input type="hidden" name="owner-id" value="<?php echo $owner_id ?>">
 			<input type="submit" value="Create Station">
 		</form>
-		<br><br><u>Your Stations:</u><br><br>
+		<br><br><u>Edit Your Stations:</u><br><br>
 		<table>
 		<thead>
 			<tr>
@@ -244,6 +250,7 @@ if (isset($owner_id)) {
 		</thead>
 		<tbody>
 		<?php
+		$stationResult->data_seek(0);
 		while ($row = $stationResult->fetch_assoc()) {
 			if ($row['desc'] == "") {
 				$row['desc'] = "[No description.]";
@@ -275,7 +282,7 @@ if (isset($owner_id)) {
 			<input type="hidden" name="owner-id" value="<?php echo $owner_id ?>">
 			<input type="submit" value="Create block">
 		</form><br><br>
-		<u>Your Blocks:</u><br><br>
+		<u>Edit Your Blocks:</u><br><br>
 		<table>
 		<thead>
 			<tr>
