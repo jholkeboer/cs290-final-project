@@ -3,6 +3,11 @@ include "infostash.php";
 session_start();
 if ($_SESSION['loginStatus'] != 1) {
 	//user is not actually logged in.  destroy session and send them back to homepage.
+	unset($_SESSION["loginStatus"]); 
+	$_SESSION = array();
+	session_destroy;
+	header("Location: {$redirect}/landing.php");
+	die();
 }
 if ($_SESSION['loginStatus'] == 1) {
 	$sessionUser = $_SESSION['user'];
@@ -220,7 +225,7 @@ if (isset($owner_id)) {
 <div class="viewport"><br>
 
 	<div class="leftCol">
-		Add station:
+		Create station:
 		<form method="post" action="userhome.php">
 			<label>Name:</label>
 			<input type="text" name="station-name" required><br>
@@ -244,7 +249,7 @@ if (isset($owner_id)) {
 				$row['desc'] = "[No description.]";
 			}
 			echo "<tr>";
-			echo "<td>" . "<a href='stationpage.php?station_id=" . $row['station_id'] . "'>" . $row['name'] . "</a>" . "</td>";
+			echo "<td>" . "<a href='stationpage.php?station_id=" . $row['station_id'] . "&station_name=".$row['name']."'>" . $row['name'] . "</a>" . "</td>";
 			echo "<td style='padding: 10px;'>" . $row['desc'] . "</td>";
 			echo "<td style='padding:2px;'>
 			<form action='userhome.php' method='post'>
@@ -261,7 +266,7 @@ if (isset($owner_id)) {
 		</table>
 	</div>
 	<div class="rightCol">
-		Add block:
+		Create block:
 		<form method="post" action="userhome.php">
 			<label>Name:</label>
 			<input type="text" name="block-name" required><br>
