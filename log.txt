@@ -1,0 +1,21 @@
+Start: Thu, 28 May 2015 16:34:20 -0700 
+End: Thu, 28 May 2015 20:34:20 -0700 
+Tasks: initial commit
+Start: Sun, 31 May 2015 12:44:43 -0700 
+End: Sun, 31 May 2015 15:44:43 -0700 
+Tasks: initial schema finished
+Start: Thu, 4 Jun 2015 17:53:47 -0700 
+End: Thu, 4 Jun 2015 21:53:47 -0700 
+Tasks: working on login forms
+Start: Fri, 5 Jun 2015 21:12:13 -0700 
+End: Sat, 6 Jun 2015 01:12:13 -0700 
+Tasks: db config
+Start: Sat, 6 Jun 2015 18:28:27 -0700 
+End: Sat, 6 Jun 2015 22:28:27 -0700 
+Tasks: signup ajax
+Start: Sun, 7 Jun 2015 06:49:24 -0700 
+End: Sun, 7 Jun 2015 13:38:37 -0700 
+Tasks: block and station lists on homepage with links
+Start: Sun, 7 Jun 2015 15:47:19 -0700 
+End: Sun, 7 Jun 2015 22:15:22 -0700 
+Tasks: switched to oregon state db
