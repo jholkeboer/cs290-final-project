@@ -32,8 +32,6 @@ if (isset($_GET['youtube-url']) && $urlParse = parse_url($_GET['youtube-url'], P
 	parse_str($urlParse, $query);
 	$yid = $query['v'];
 }
-echo ($block_name);
-echo ($block_id);
 
 	//query to get items in this block
 if (isset($block_id)) {
@@ -160,6 +158,7 @@ if (isset($item_name) && isset($item_desc) && isset($yid)) {
 		<li><a href="logout.php">Log Out</a></li>
 	</ul>
 </div>
+<a onclick="showHelp()">Need Help?</a>
 <div class="viewport"><br>
 
 	<div class="leftCol">

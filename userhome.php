@@ -218,11 +218,13 @@ if (isset($owner_id)) {
 		?>
 		<li><a href="userhome.php">Homepage</a></li>
 		<li><a href="logout.php">Log Out</a></li><br>
-		<h3 style="color:#D0F5EE;">Your Stations:</h3><br>
+	</ul>
+		<h3 style="color:#D0F5EE; text-align: center">View Your Stations:</h3>
+	<ul>
 		<?php
 			//echo a list entry for each station, linking to stationviewer.php with GET
 			while ($row = $stationResult->fetch_assoc()) {
-			echo "<li>" . "<a href='stationpage.php?station_id='" . $row['station_id'] . "'>" . $row['name'] . "</a>" . "</li>";
+			echo "<li>" . "<a href='stationviewer.php?station_id=" . strval($row['station_id']) . "&station_name=" . htmlspecialchars($row['name']) ."'>" . $row['name'] . "</a>" . "</li>";
 			}
 		?>	
 	</ul>
